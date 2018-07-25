@@ -1,0 +1,31 @@
+.variablesDiet {
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+  background: #fbdafa
+}
+
+.variablesNames {
+  margin: 10px;
+  padding: 10px;
+  border: 2px black
+}
+.variablesDiet form {
+  width:350px;
+}
+.variablesDiet form [name="gender"] {
+  width:84px;
+}
+
+.variablesDiet form [type="number"] {
+  width:80px;
+}
+
+.variablesDiet form select {
+  width:150px;
+}
+
+.try {
+  display:flex;
+  justify-content: space-between;
+}
