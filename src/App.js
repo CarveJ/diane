@@ -3,6 +3,30 @@ import React, { Component } from 'react';
 import './App.css';
 import Banner from './components/banner.js'
 import VariablesDiet from './components/variablesDiet.js'
+import NutritionProfileDiet from './components/nutritionProfileDiet'
+
+
+
+import { connect } from 'react-redux'
+import { GetCalories} from './redux/action'
+
+
+
+
+
+const mapStateToProps = ( state ) => {
+  return {
+    calories: state.calories
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCalories: apiInformation => dispatch(GetCalories(apiInformation))
+  }
+}
+
+
 
 class App extends Component {
 
@@ -10,9 +34,8 @@ class App extends Component {
     return (
      <div className="container">
       <Banner/>
-      <VariablesDiet/>
-      <div className="nutritionProfileDiet">
-      </div>
+      <VariablesDiet getCalories={this.props.getCalories}/>
+      <NutritionProfileDiet setCalories={this.props.calories}/>
       <div className="ingredientsDiet">
       </div>
      </div>
@@ -20,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

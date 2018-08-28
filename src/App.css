@@ -1,3 +1,16 @@
 .banner{
   background-color: blanchedalmond;
 }
+
+.nutritionProfileDiet {
+ display:flex;
+}
+
+.fuckwithme {
+  display:flex;
+  justify-content: space-between;
+}
+
+.fuckwithme > div {
+  margin-left:10px;
+}

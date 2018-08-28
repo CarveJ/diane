@@ -1,3 +1,4 @@
+
 import React from 'react';
 import '../styles/variablesDiet.css'
 
@@ -6,24 +7,14 @@ class VariablesDiet extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      gender: '',
+      gender: 'Female',
       age:'',
       height:'',
       bodyweight:'',
-      activityLevel:'',
-      goal:''
+      activityLevel:'Codeworks Programmer',
+      goal:'Get sexy'
     }
-
-    this.handleChangeGender = this.handleChangeGender.bind(this)
-    this.handleChangeAge = this.handleChangeAge.bind(this)
-    this.handleChangeHeight = this.handleChangeHeight.bind(this)
-    this.handleChangeBodyweight = this.handleChangeBodyweight.bind(this)
-    this.handleChangeActivityLevel = this.handleChangeActivityLevel.bind(this)
-    this.handleChangeGoal = this.handleChangeGoal.bind(this)
-
   }
-
-
 
   postData = (formInformation) => {
     let newData = {
@@ -34,94 +25,69 @@ class VariablesDiet extends React.Component {
       activityLevel:this.state.activityLevel,
       goal:this.state.goal
     }
+     formInformation.preventDefault()
 
-    fetch("local",{
+    fetch('http://localhost:3001/calories',{
       method:'POST',
       headers:{
         "Content-Type": "application/json; charset=utf-8"
       },
       body: JSON.stringify(newData)
+    }).then(res => res.json())
+    .then(calorieInfo => this.props.getCalories(calorieInfo))
+
+  }
+
+  handleEvent = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
     })
-
   }
 
-  handleChangeGender = (event) => {
-    this.setState({gender: event.target.value})
+  renderOptions = ( options ) => {
+    return options.map( anOption => {
+      return <option value={anOption}> {anOption} </option>
+    })
   }
 
-  handleChangeAge = (event) => {
-    this.setState({age: event.target.value})
+  renderSelect = (label , name, arrayOfOptions ) => {
+    return (
+      <div className="divider">
+        <div> {label} </div>
+        <select name={name} value={this.state[name]} onChange={this.handleEvent}>
+        {this.renderOptions(arrayOfOptions)}
+        </select>
+      </div>
+    )
   }
 
-  handleChangeHeight = (event) => {
-    this.setState({Height: event.target.value})
-  }
-
-  handleChangeBodyweight = (event) => {
-    this.setState({bodyweight: event.target.value})
-  }
-
-  handleChangeActivityLevel = (event) => {
-    this.setState({activityLevel: event.target.value})
-  }
-
-  handleChangeGoal = (event) => {
-    this.setState({goal: event.target.value})
+  renderInput = (label, name, type, min, max) => {
+    return(
+      <div className="divider">
+        <div> {label} </div>
+        <input name={name} type={type} value={this.state[name]} onChange={this.handleEvent} min={min} max={max} step="1" placeholder=""/>
+      </div>
+    )
   }
 
   render() {
     return (
       <div className="variablesDiet">
+
         <div className="variablesNames">
+
           <form onSubmit={this.postData}>
-            <div className="try">
-              <div> Gender </div>
-                <select name="gender" vale={this.state.gender} onChange={this.handleChangeGender}>
-                  <option value="female"> Female </option>
-                  <option value="male"> Male </option>
-                </select>
-            </div>
-            <br/>
-            <div className="try">
-              <div> Age </div>
-              <input type="number" value={this.state.age} onChange={this.handleChangeAge} id="age" min="1" max="99" placeholder=""/>
-            </div>
-
-            <br/>
-            <div className="try">
-              <div> Height(cm) </div>
-              <input type="number" value={this.state.height} onChange={this.handleChangeHeight} min="99" max="230" placeholder=""/>
-            </div>
-
-            <br/>
-            <div className="try">
-              <div> bodyweight </div>
-              <input type="number" value={this.state.bodyweight} onChange={this.handleChangeBodyweight} min="1" max="99" placeholder=""/>
-            </div>
-
-            <br/>
-            <div className="try">
-              <div> Activity Level </div>
-              <select name="Activity Level" value={this.state.activityLevel} onChange={this.handleChangeActivityLevel} >
-                <option value="codeworks programmer"> codeworks programmer (0) </option>
-                <option value="Normal person">Normal person (1) </option>
-                <option value="Exercise is Life"> Exercise is Life (2) </option>
-              </select>
-            </div>
-
-            <br/>
-            <div className="try">
-              <div> Goal </div>
-              <select name="Goal" value={this.state.goal} onChange={this.handleChangeGoal}>
-                <option value="get Sexy"> get Sexy </option>
-                <option value="get Really Sexy"> get Really Sexy </option>
-                <option value="something lame like be healthy"> something lame like be healthy </option>
-              </select>
-            </div>
-            <br/>
-            <input type="submit" value="submit"/>
+            {this.renderSelect('Gender', 'gender', ['female','male'])}
+            {this.renderInput('Age', 'age', 'number' , '1', '99')}
+            {this.renderInput('Height', 'height', 'number' , '99', '230')}
+            {this.renderInput('Bodyweight', 'bodyweight', 'number' , '40', '200')}
+            {this.renderSelect('Activity Level', 'activityLevel', ['Codeworks Programmer','Office Worker','Normal Person','Regular Exercise','Savage'])}
+            {this.renderSelect('Goal', 'goal', ['Get Sexy', 'Maintenece','Lose 10%','Lose 15%','Lose 20%'])}
+            <button className="sexyButton" type='Submit'> Click baby </button>
           </form>
+
         </div>
+
       </div>
     );
   }
