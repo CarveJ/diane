@@ -3,16 +3,17 @@ import '../../styles/DataComponent.css'
 
 const DataComponent = ({onClick = f => console.log(f), input = false, dropDown = false , name="wrong", type ="number", options=[]}) => {
 
-  let _something
+  let _something = React.createRef()
 
   const handleClick = ()=>{
-    onClick(_something.value)
+    console.log(_something)
+    onClick(name, _something.current.value)
   }
 
   const inputOrSelect = () => {
-    return (input)? <input type={type} refs={input => _something = input} name={name}/> :
+    return (input)? <input type={type} refs={_something} name={name}/> :
         (dropDown)?
-        <select refs={input => _something = input} name={name}>
+        <select refs={_something} name={name}>
           {options.map( (n,i) => {
             return (
               <option key={i} value={n}>
