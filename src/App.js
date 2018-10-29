@@ -2,21 +2,16 @@ import React, { Component } from 'react';
 import './App.css';
 
 import Welcome from './components/Welcome'
-import Gender from './components/dataCollection/Gender'
-import Age from './components/dataCollection/Age'
+import DataComponent from './components/dataCollection/dataCollection'
 
 import { connect } from 'react-redux'
 import { GetCalories} from './redux/action'
 
-
-
-
 class App extends Component {
-
   render() {
     return (
      <div className="container">
-      <Age/>
+      <DataComponent />
      </div>
     );
   }
