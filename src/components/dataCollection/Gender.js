@@ -10,17 +10,19 @@ const Gender = ({onClick= f=>console.log(f)}) => {
 
 return (
     <div>
-      <div className="genderCon">
-        <div className="DCInput">
-          <input refs={input => _gender = input} type='text'/>
+      <div className="box">
+        <div className="genderCon">
+          <div className="DCInput">
+            <input refs={input => _gender = input} type='text'/>
+          </div>
+          <div onClick={handleClick} className="DCButton">
+            Yes
+          </div>
         </div>
-        <div onClick={handleClick} className="DCButton">
-          Yes
-        </div>
-      </div>
-      <div className="nextCon">
-        <divs>
-         Next
+        <div className="nextCon">
+          <div className="DCNext">
+           Next
+          </div>
         </div>
       </div>
     </div>
