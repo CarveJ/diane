@@ -6,14 +6,14 @@ const DataComponent = ({onClick = f => console.log(f), input = false, dropDown =
   let _something = React.createRef()
 
   const handleClick = ()=>{
-    console.log(_something)
+    console.log(_something.current.value, name)
     onClick(name, _something.current.value)
   }
 
   const inputOrSelect = () => {
-    return (input)? <input type={type} refs={_something} name={name}/> :
+    return (input)? <input type={type} ref={_something} name={name}/> :
         (dropDown)?
-        <select refs={_something} name={name}>
+        <select ref={_something} name={name}>
           {options.map( (n,i) => {
             return (
               <option key={i} value={n}>
