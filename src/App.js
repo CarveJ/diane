@@ -3,29 +3,22 @@ import './App.css';
 
 import Welcome from './components/Welcome'
 import DataComponent from './components/dataCollection/dataCollection'
+import ComposedComponent from './components/dataCollection/HOC'
+import dataScreenArr from './dataScreensArr/dataScreensArr'
 
 import { connect } from 'react-redux'
 import { GetCalories} from './redux/action'
 
+const DataScreens = ComposedComponent(
+  DataComponent,
+  dataScreenArr
+)
 class App extends Component {
-
-  constructor(props){
-    super(props)
-    this.state = {gender: undefined}
-    this.controlClick = this.controlClick.bind(this)
-  }
-
-  controlClick(name,variable){
-    this.setState({
-      [name]:variable
-    })
-    console.log(this.state)
-  }
 
   render() {
     return (
      <div className="container">
-      <DataComponent onClick={this.controlClick} input={true} name="Age" type="number" />
+      <DataScreens/>
      </div>
     );
   }

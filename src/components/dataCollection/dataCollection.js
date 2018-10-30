@@ -1,12 +1,12 @@
 import React from 'react';
 import '../../styles/DataComponent.css'
 
-const DataComponent = ({onClick = f => console.log(f), input = false, dropDown = false , name="wrong", type ="number", options=[]}) => {
+const DataComponent = ({onClick = f => console.log(f), nextScreen = v=>console.log(v),
+   input = false, dropDown = false , name="wrong", type ="number", options=[]}) => {
 
   let _something = React.createRef()
 
   const handleClick = ()=>{
-    console.log(_something.current.value, name)
     onClick(name, _something.current.value)
   }
 
@@ -30,6 +30,7 @@ const DataComponent = ({onClick = f => console.log(f), input = false, dropDown =
     <div>
       <div className="box">
         <div className="dataComponentCon">
+          <h1>{name}</h1>
           <div className="DCInput">
             {inputOrSelect()}
           </div>
@@ -38,7 +39,7 @@ const DataComponent = ({onClick = f => console.log(f), input = false, dropDown =
           </div>
         </div>
         <div className="nextCon">
-          <div className="DCNext">
+          <div className="DCNext" onClick={nextScreen}>
            Next
           </div>
         </div>
