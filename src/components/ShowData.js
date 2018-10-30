@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../styles/ShowData.css'
 
 import PersonalData from './PersonalData'
+import CalorieData from './CalorieData'
 
 class ShowData extends Component {
 
@@ -11,8 +12,7 @@ class ShowData extends Component {
         <div className="showData">
           <div className="topHalf">
             <PersonalData/>
-            <div className="calorieData">
-            </div>
+            <CalorieData/>
           </div>
           <div className="shoppingList">
           </div>

@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
+//importing components
 import Welcome from './components/Welcome'
 import DataComponent from './components/dataCollection/dataCollection'
 import ComposedComponent from './components/dataCollection/HOC'
 import dataScreenArr from './dataScreensArr/dataScreensArr'
-import PersonalData from './components/PersonalData'
+import ShowData from './components/ShowData'
 
+//importing redux tools
 import { connect } from 'react-redux'
 import { GetCalories} from './redux/action'
 
@@ -20,7 +22,7 @@ class App extends Component {
   render() {
     return (
      <div className="container">
-      <PersonalData />
+      <ShowData />
      </div>
     );
   }
