@@ -5,6 +5,7 @@ import Welcome from './components/Welcome'
 import DataComponent from './components/dataCollection/dataCollection'
 import ComposedComponent from './components/dataCollection/HOC'
 import dataScreenArr from './dataScreensArr/dataScreensArr'
+import PersonalData from './components/PersonalData'
 
 import { connect } from 'react-redux'
 import { GetCalories} from './redux/action'
@@ -13,12 +14,13 @@ const DataScreens = ComposedComponent(
   DataComponent,
   dataScreenArr
 )
+
 class App extends Component {
 
   render() {
     return (
      <div className="container">
-      <DataScreens/>
+      <PersonalData />
      </div>
     );
   }

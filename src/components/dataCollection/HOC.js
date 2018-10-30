@@ -6,13 +6,7 @@ const ComposedComponent = (DataScreen, arrayOfArgs) =>
         super(props)
 
         this.state = {
-          position:0,
-          age:undefined,
-          height:undefined,
-          bodyweight: undefined,
-          gender: undefined,
-          activityLevel: undefined,
-          goal: undefined
+          position:0
         }
 
         this.controlClick = this.controlClick.bind(this)
