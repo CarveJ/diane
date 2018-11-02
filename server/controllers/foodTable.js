@@ -16,13 +16,16 @@ const calculateFoodRequirements = async (info) => {
   const NutsAndSeedsFoods = await model.find({foodGroup:'Nuts and Seeds'});
   const CerealsAndPastaFoods = await model.find({foodGroup:'Cereal Grains and Pasta'});
 
-  const aFunction = async (goals) => {
-    const foodcheck = await model.find({ [goals[i]]: 100 })
+  const findFoodWithThisValue = async ({calories=0 , proteins=0, carbs=0, fats=0}) => {
+    const foodcheck = await model.find({
+      calories,
+      proteins,
+      carbs,
+      fats
+    })
     return foodcheck
   }
 
-  const value = aFunction(["calories"])
-  console.log(value)
 
   const DairyFoodsLength = DairyFoods.length
   const SpicesAndHerbsFoodsLength =  SpicesAndHerbsFoods.length
@@ -176,6 +179,8 @@ const calculateFoodRequirements = async (info) => {
     return Math.floor(Math.random()*7)
   }
 
+  const arrayOfFoodGroup = ["Dairy", "Spices and Herbs", "Oils", "Meat", "Vegetables","Nuts and Seeds", "Cereal Grains and Pasta"]
+
   const offSet = {
     calories:0,
     protein:0,
@@ -184,7 +189,6 @@ const calculateFoodRequirements = async (info) => {
   }
 
   const offSetCalculator = () => {
-
     if (foodList.score.calories < checkList.caloriesMin) offSet.calories = checkList.caloriesMin - foodList.score.calories
     if (foodList.score.calories > checkList.caloriesMax) offSet.calories = checkList.caloriesMax - foodList.score.calories
 
@@ -196,7 +200,37 @@ const calculateFoodRequirements = async (info) => {
 
     if (foodList.score.fats < checkList.fatsMin) offSet.fats = checkList.fatsMin - foodList.score.carbs
     if (foodList.score.fats > checkList.fatsMax) offSet.fats = checkList.fatsMax - foodList.score.carbs
+  }
+
+  const findItemInFoodListWithThisReq = (offSetGoal) =>{
+      const filteredGoals = Object.keys(offSetGoal).reduce((accum,item,i)=>{
+        if (offSetGoal[item] < 0){
+          accum[item] = offSetGoal[item]*-1
+          return accum
+        }
+        return accum
+      },{})
+
+      
+      // we must find the food item that brings the minimizes the offset value.
+
+      console.log(filteredGoals)
+
 
   }
 
-  const arrayOfFoodGroup = ["Dairy", "Spices and Herbs", "Oils", "Meat", "Vegetables","Nuts and Seeds", "Cereal Grains and Pasta"]
+  offSetCalculator()
+  console.log(offSet,'offset')
+
+  findItemInFoodListWithThisReq(offSet)
+  const optimizeCalories = () => {
+    if(offSet.calories > 0) {
+      findFoodWithThisValue(offSet.calories)
+    }
+    else if (offSet.calories < 0){
+    }
+
+  }
+
+  return foodList
+}

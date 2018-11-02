@@ -12,5 +12,5 @@ app.use(bodyparser());
 app.use(router.routes())
 
 app.listen(port, () => {
-  console.log("waka waka 3001");
+  console.log("Listening on port 3001");
 })

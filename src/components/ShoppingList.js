@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShoppingList = ({arrOfFoodObjs=[{name}]}) => (
+const ShoppingList = ({arrOfFoodObjs=[{}]}) => (
   <div></div>
 );
 

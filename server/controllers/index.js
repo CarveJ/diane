@@ -1,4 +1,5 @@
 const foodTable = require('./foodTable')
+
 exports.foodTableCalculator = foodTable.foodTableCalculator
 
 exports.calorieCalculator = async (ctx) => {
@@ -41,6 +42,7 @@ const calorieInformation = (info) => {
   if( info.goal === 'Get sexy') {
     calorieGoal = TEE + 250;
   }
+
   if( info.goal === 'Maintenece' ){
     calorieGoal = TEE
   }
