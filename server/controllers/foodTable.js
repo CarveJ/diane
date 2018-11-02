@@ -1,4 +1,5 @@
 const model = require('../models/index')
+const rangeBoolean = require('./helperFunctions/rangeBoolean')
 
 exports.foodTableCalculator = async (ctx) => {
   ctx.body = await calculateFoodRequirements(ctx.request.body)
@@ -189,20 +190,44 @@ const calculateFoodRequirements = async (info) => {
   }
 
   const offSetCalculator = () => {
-    if (foodList.score.calories < checkList.caloriesMin) offSet.calories = checkList.caloriesMin - foodList.score.calories
-    if (foodList.score.calories > checkList.caloriesMax) offSet.calories = checkList.caloriesMax - foodList.score.calories
+    if (foodList.score.calories < checkList.caloriesMin) offSet.calories = (checkList.caloriesMin - foodList.score.calories).toFixed(0)
+    if (foodList.score.calories > checkList.caloriesMax) offSet.calories = (checkList.caloriesMax - foodList.score.calories).toFixed(0)
 
-    if (foodList.score.protein < checkList.proteinMin) offSet.protein = checkList.proteinMin - foodList.score.protein
-    if (foodList.score.protein > checkList.proteinMax) offSet.protein = checkList.proteinMax - foodList.score.protein
+    if (foodList.score.protein < checkList.proteinMin) offSet.protein = (checkList.proteinMin - foodList.score.protein).toFixed(0)
+    if (foodList.score.protein > checkList.proteinMax) offSet.protein = (checkList.proteinMax - foodList.score.protein).toFixed(0)
 
-    if (foodList.score.carbs < checkList.carbsMin) offSet.carbs = checkList.carbsMin - foodList.score.carbs
-    if (foodList.score.carbs > checkList.carbsMax) offSet.carbs = checkList.carbsMax - foodList.score.carbs
+    if (foodList.score.carbs < checkList.carbsMin) offSet.carbs = (checkList.carbsMin - foodList.score.carbs).toFixed(0)
+    if (foodList.score.carbs > checkList.carbsMax) offSet.carbs = (checkList.carbsMax - foodList.score.carbs).toFixed(0)
 
-    if (foodList.score.fats < checkList.fatsMin) offSet.fats = checkList.fatsMin - foodList.score.carbs
-    if (foodList.score.fats > checkList.fatsMax) offSet.fats = checkList.fatsMax - foodList.score.carbs
+    if (foodList.score.fats < checkList.fatsMin) offSet.fats = (checkList.fatsMin - foodList.score.carbs).toFixed(0)
+    if (foodList.score.fats > checkList.fatsMax) offSet.fats = (checkList.fatsMax - foodList.score.carbs).toFixed(0)
   }
 
-  const findItemInFoodListWithThisReq = (offSetGoal) =>{
+
+  //rangeBoolean Takes to arguments which will create and a range of values for arg
+  // one in which arg two must fall into that will satisfy it.
+
+  const checkFood = (criteria,foodItem) => {
+    const arrayOfObjKeys = Object.keys(criteria)
+
+    const check = arrayOfObjKeys.reduce((accum,name,index)=>{
+      if (rangeBoolean(criteria[name],foodItem[name])) {
+        return accum + 1
+      }
+      return accum
+    },0)
+
+    console.log(check,'check')
+    console.log(criteria,foodItem)
+    if (check === arrayOfObjKeys.length) {
+      return true
+    }
+    return false
+  }
+
+  checkFood({fats:26}, foodList.Dairy[0])
+
+  const findItemInFoodListWithThisReq = async (offSetGoal) =>{
       const filteredGoals = Object.keys(offSetGoal).reduce((accum,item,i)=>{
         if (offSetGoal[item] < 0){
           accum[item] = offSetGoal[item]*-1
@@ -211,16 +236,24 @@ const calculateFoodRequirements = async (info) => {
         return accum
       },{})
 
-      
+      const findFoods = (filteredGoals) => {
+        Object.keys(foodList).map((foodGroup,index)=>{
+          if ( Array.isArray(foodList[foodGroup]) ) {
+              foodList[foodGroup].map((food,index)=>{
+
+              })
+          }
+        })
+      }
+    }
+
       // we must find the food item that brings the minimizes the offset value.
 
-      console.log(filteredGoals)
 
 
-  }
+
 
   offSetCalculator()
-  console.log(offSet,'offset')
 
   findItemInFoodListWithThisReq(offSet)
   const optimizeCalories = () => {
