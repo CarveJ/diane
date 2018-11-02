@@ -1,0 +1,8 @@
+.calorieData{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background-color: black;
+  width:60vw;
+  height:40vh;
+}

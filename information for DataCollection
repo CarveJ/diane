@@ -1,0 +1,23 @@
+gender - Binary = DropDown
+
+bodyweight - Number (Discrete) = input
+
+height - Number (Discrete ) = input
+
+age - Number (Discrete) = input
+
+activityLevel - Fixed Values = DropDown
+
+Codeworks Programmer
+Office Worker
+Normal Person
+Regular Exercise
+Savage
+
+
+Goal - Fixed Values = DropDown
+Get Sexy
+Maintenece
+Lose 10%
+Lose 15%
+Lose 20% 

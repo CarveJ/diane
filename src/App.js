@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-
 import './App.css';
-import Banner from './components/banner.js'
-import VariablesDiet from './components/variablesDiet.js'
-import NutritionProfileDiet from './components/nutritionProfileDiet'
 
+//importing components
+import Welcome from './components/Welcome'
+import DataComponent from './components/dataCollection/dataCollection'
+import ComposedComponent from './components/dataCollection/HOC'
+import dataScreenArr from './dataScreensArr/dataScreensArr'
+import ShowData from './components/ShowData'
 
-
+//importing redux tools
 import { connect } from 'react-redux'
 import { GetCalories} from './redux/action'
 
+const DataScreens = ComposedComponent(
+  DataComponent,
+  dataScreenArr
+)
 
+class App extends Component {
 
-
+  render() {
+    return (
+     <div className="container">
+      <ShowData />
+     </div>
+    );
+  }
+}
 
 const mapStateToProps = ( state ) => {
   return {
@@ -26,21 +40,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-
-
-class App extends Component {
-
-  render() {
-    return (
-     <div className="container">
-      <Banner/>
-      <VariablesDiet getCalories={this.props.getCalories}/>
-      <NutritionProfileDiet setCalories={this.props.calories}/>
-      <div className="ingredientsDiet">
-      </div>
-     </div>
-    );
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps)(App);

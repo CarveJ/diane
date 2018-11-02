@@ -1,0 +1,9 @@
+.showData{
+  display: flex;
+  flex-direction: column;
+}
+
+.topHalf{
+  display: flex;
+  flex-direction: row;
+}

@@ -1,0 +1,15 @@
+.welcome {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  width:100vw;
+  height:100vh;
+}
+
+.begin {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 3px;
+}
