@@ -1,5 +1,6 @@
 const model = require('../models/index')
-const rangeBoolean = require('./helperFunctions/rangeBoolean')
+const helper = require('./helperFunctions/rangeBoolean')
+const rangeBoolean = helper.rangeBoolean
 
 exports.foodTableCalculator = async (ctx) => {
   ctx.body = await calculateFoodRequirements(ctx.request.body)
@@ -207,63 +208,76 @@ const calculateFoodRequirements = async (info) => {
   //rangeBoolean Takes to arguments which will create and a range of values for arg
   // one in which arg two must fall into that will satisfy it.
 
-  const checkFood = (criteria,foodItem) => {
+  const checkFood = (criteria,foodItem,rangeAllowance) => {
     const arrayOfObjKeys = Object.keys(criteria)
 
     const check = arrayOfObjKeys.reduce((accum,name,index)=>{
-      if (rangeBoolean(criteria[name],foodItem[name])) {
+      if (rangeBoolean(criteria[name] ,foodItem[name] ,rangeAllowance)) {
         return accum + 1
       }
       return accum
     },0)
 
-    console.log(check,'check')
-    console.log(criteria,foodItem)
     if (check === arrayOfObjKeys.length) {
       return true
     }
     return false
   }
 
-  checkFood({fats:26}, foodList.Dairy[0])
 
-  const findItemInFoodListWithThisReq = async (offSetGoal) =>{
-      const filteredGoals = Object.keys(offSetGoal).reduce((accum,item,i)=>{
-        if (offSetGoal[item] < 0){
+  const findItemInFoodListWithThisReq = async (offSetGoal) => {
+      const result = []
+
+      let rangeNum = 0.1
+
+      const filteredGoals = Object.keys(offSetGoal).reduce( (accum,item,i) => {
+        if (offSetGoal[item] < 0) {
           accum[item] = offSetGoal[item]*-1
           return accum
         }
         return accum
       },{})
 
-      const findFoods = (filteredGoals) => {
-        Object.keys(foodList).map((foodGroup,index)=>{
+      const findFoods = (criteriaGoals, rangeAllowance) => {
+        Object.keys(foodList).map( (foodGroup,index) => {
           if ( Array.isArray(foodList[foodGroup]) ) {
-              foodList[foodGroup].map((food,index)=>{
-
+              foodList[foodGroup].map( (food, index) => {
+                if(checkFood(criteriaGoals,food,rangeAllowance)) {
+                  result.push(food)
+                }
               })
           }
         })
       }
+
+      while( result.length === 0 ) {
+        console.log(rangeNum,'start of loop')
+        findFoods(filteredGoals, rangeNum)
+        console.log(filteredGoals,'filteredGoals')
+        console.log(result)
+        rangeNum += 0.05
+        rangeNum.toFixed(2)
+        console.log(rangeNum,'end of loop')
+      }
+
+
     }
 
-      // we must find the food item that brings the minimizes the offset value.
-
-
-
-
+      // we must find the food item that minimizes the offset value.
 
   offSetCalculator()
 
-  findItemInFoodListWithThisReq(offSet)
   const optimizeCalories = () => {
     if(offSet.calories > 0) {
       findFoodWithThisValue(offSet.calories)
     }
-    else if (offSet.calories < 0){
+
+    else if (offSet.calories < 0) {
+      findItemInFoodListWithThisReq(offSet)
     }
 
   }
+  optimizeCalories()
 
   return foodList
 }
