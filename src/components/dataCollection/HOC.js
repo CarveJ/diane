@@ -1,5 +1,4 @@
 import React, { Component }  from 'react'
-import { connect } from 'react-redux'
 
 const ComposedComponent = (DataScreen, arrayOfArgs) =>
     class ComposedComponent extends Component {
@@ -15,34 +14,26 @@ const ComposedComponent = (DataScreen, arrayOfArgs) =>
         this.controlScreen = this.controlScreen.bind(this)
       }
 
-      controlClick(name,variable){
+      controlClick(value,variable){
         this.setState({
           data:{
             ...this.state.data,
-            [name]:variable
+            [value]:variable
           }
         })
       }
 
-      controlScreen(){
-        if (this.state.position < 6 ) {
+      controlScreen() {
+        if (this.state.position < 5 ) {
           let screenNum = this.state.position + 1
           this.setState({
             position: screenNum
           })
         }
         else {
-          fetch('http://localhost:3001/calories',{
-            method:'POST',
-            body: JSON.stringify(this.state.data),
-            headers: {
-              "Content-Type":"application/json"
-            }
-          })
-          .then(res => res.json())
-          .then(data => this.setState({data}) )
-        }
 
+          this.props.getCalories(this.state.data)
+        }
       }
 
       renderScreen(i){
@@ -50,13 +41,18 @@ const ComposedComponent = (DataScreen, arrayOfArgs) =>
       }
 
       render(){
-        console.log(this.state)
+        console.log(this.state.data)
         return(
           <div>
             {this.renderScreen(this.state.position)}
           </div>
         )
       }
+
     }
 
-export default ComposedComponent ;
+
+
+
+
+export default ComposedComponent;
