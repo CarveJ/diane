@@ -1,0 +1,13 @@
+.shoppingListRow {
+  display:flex;
+  background-color: yellow;
+  justify-content: space-around;
+  margin:5px;
+}
+
+.informationBlock {
+  background:grey;
+  width:15vw;
+  height:5vh;
+  overflow: hidden;
+}

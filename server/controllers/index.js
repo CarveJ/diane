@@ -12,7 +12,6 @@ const calorieInformation = (info) => {
   let TEE;
   let calorieGoal
   let check;
-
   if (info.gender === 'Female') {
     REE = 10*info.bodyweight + 6.25*info.height -5*info.age - 161
   }

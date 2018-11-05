@@ -2,12 +2,12 @@ import React from 'react';
 import '../../styles/DataComponent.css'
 
 const DataComponent = ({onClick = f => console.log(f), nextScreen = v=>console.log(v),
-   input = false, dropDown = false , name="wrong", type ="number", options=[]}) => {
+   input = false, dropDown = false , name="wrong", type ="number", options=[], value="nothing"}) => {
 
   let _something = React.createRef()
 
   const handleClick = ()=>{
-    onClick(name, _something.current.value)
+    onClick(value, _something.current.value)
   }
 
   const inputOrSelect = () => {

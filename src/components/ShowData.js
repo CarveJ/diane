@@ -3,6 +3,8 @@ import '../styles/ShowData.css'
 
 import PersonalData from './PersonalData'
 import CalorieData from './CalorieData'
+import ShoppingList from './ShoppingList'
+import fakeFood from '../fakeObjData'
 
 class ShowData extends Component {
 
@@ -14,8 +16,7 @@ class ShowData extends Component {
             <PersonalData/>
             <CalorieData/>
           </div>
-          <div className="shoppingList">
-          </div>
+          <ShoppingList foodListObj={fakeFood}/>
         </div>
       </div>
     );
