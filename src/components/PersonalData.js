@@ -7,7 +7,7 @@ const PersonalData = ({gender='male',age=24,bodyweight=67,height=172,activityLev
 const items = {
   Gender: gender,
   Age: age,
-  bodyweight:bodyweight,
+  Bodyweight:bodyweight,
   Height:height,
   ActivityLevel: activityLevel,
   Goal:goal
@@ -16,7 +16,7 @@ const items = {
   return (
       <div>
         <div className="personalData">
-          {Object.keys(items).map((name,i) =>{
+          {Object.keys(items).map((name,i) => {
             return <RowOfData name={name} value={items[name]} key={name}/>
           })}
         </div>

@@ -35,11 +35,12 @@ class App extends Component {
           <ShowData/>
   }
 
+  // {this.renderScreen()}
   render() {
     console.log(this.props)
     return (
      <div className="container">
-      {this.renderScreen()}
+     <ShowData/>
      </div>
     );
   }
