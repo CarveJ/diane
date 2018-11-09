@@ -6,6 +6,8 @@ import CalorieData from './CalorieData'
 import ShoppingList from './ShoppingList'
 import fakeFood from '../fakeObjData'
 
+import { connect } from 'react-redux'
+
 class ShowData extends Component {
 
   render() {
@@ -13,8 +15,8 @@ class ShowData extends Component {
       <div>
         <div className="showData">
           <div className="topHalf">
-            <PersonalData/>
-            <CalorieData/>
+            <PersonalData {...this.props.personalData}/>
+            <CalorieData {...this.props.calories}/>
           </div>
           <ShoppingList foodListObj={fakeFood}/>
         </div>
@@ -23,4 +25,9 @@ class ShowData extends Component {
   }
 }
 
-export default ShowData;
+const mapStateToProps = state =>({
+    personalData: state.personalData,
+    calories: state.calories
+})
+
+export default connect(mapStateToProps)(ShowData);

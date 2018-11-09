@@ -18,3 +18,8 @@ export function SetMacros(sliderInformation){
     sliderInformation
   }
 }
+
+export const AddPersonalData = (data)=>({
+  type:'ADD_PERSONAL_DATA',
+  data
+})

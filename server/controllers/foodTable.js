@@ -18,16 +18,14 @@ const calculateFoodRequirements = async (info) => {
   const NutsAndSeedsFoods = await model.find({foodGroup:'Nuts and Seeds'});
   const CerealsAndPastaFoods = await model.find({foodGroup:'Cereal Grains and Pasta'});
 
-  const findFoodWithThisValue = async ({calories=0 , proteins=0, carbs=0, fats=0}) => {
-    const foodcheck = await model.find({
-      calories,
-      proteins,
-      carbs,
-      fats
-    })
-    return foodcheck
+  const findFoodWithThisValue = async ({calories = 0 , proteins, carbs, fats}) => {
+    const foodCheck = await model.find({calories})
+    if(foodCheck.length === 0){
+      const anotherItem = await findFoodWithThisValue({calories:calories*1.05})
+      return anotherItem[0]
+    }
+    return foodCheck[0]
   }
-
 
   const DairyFoodsLength = DairyFoods.length
   const SpicesAndHerbsFoodsLength =  SpicesAndHerbsFoods.length
@@ -251,33 +249,44 @@ const calculateFoodRequirements = async (info) => {
       }
 
       while( result.length === 0 ) {
-        console.log(rangeNum,'start of loop')
         findFoods(filteredGoals, rangeNum)
-        console.log(filteredGoals,'filteredGoals')
-        console.log(result)
         rangeNum += 0.05
         rangeNum.toFixed(2)
-        console.log(rangeNum,'end of loop')
       }
 
-
+      return result;
     }
 
       // we must find the food item that minimizes the offset value.
 
-  offSetCalculator()
+      offSetCalculator()
 
-  const optimizeCalories = () => {
-    if(offSet.calories > 0) {
-      findFoodWithThisValue(offSet.calories)
+      console.log(offSet,'before optimize')
+
+  const optimizeCalories = async () => {
+    let iterations = 0
+    while(offSet.calories !==0 && iterations<6){
+      console.log(offSet,'begin optimize',iterations,'iterations')
+      iterations++
+      if(offSet.calories > 0) {
+        const newItem = await findFoodWithThisValue({calories:offSet.calories})
+        console.log(newItem,'newItem')
+        addItemToFoodList(newItem)
+        offSetCalculator()
+        console.log(offSet,'add food')
+      }
+      else if (offSet.calories < 0) {
+        const oldItem = await findItemInFoodListWithThisReq({calories:offSet.calories})
+        console.log(oldItem[0], 'oldItem')
+        minusItemToFoodList(oldItem[0])
+        offSetCalculator()
+        console.log(offSet,'minus food')
+      }
     }
-
-    else if (offSet.calories < 0) {
-      findItemInFoodListWithThisReq(offSet)
-    }
-
   }
-  optimizeCalories()
+
+  const hold = await optimizeCalories()
+
 
   return foodList
 }

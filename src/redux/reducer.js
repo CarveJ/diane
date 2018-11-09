@@ -1,4 +1,12 @@
 const initialState = {
+  personalData:{
+    gender: 'Female',
+    age: '50',
+    bodyweight:'60',
+    height:'160',
+    activityLevel: 'Programmer',
+    goal:'Lose 10%'
+  },
   calories:{},
   macros:{},
   loading: false,
@@ -29,6 +37,12 @@ export default function calorieApp(state = initialState, action) {
       return {
         ...state,
         loading: false
+      }
+    case 'ADD_PERSONAL_DATA':
+      console.log('ADD_PERSONAL_DATA')
+      return {
+        ...state,
+        personalData:action.data
       }
     case 'SET_MACROS':
       return {

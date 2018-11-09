@@ -9,7 +9,7 @@ exportObj.rangeBoolean = ( addRanged , fallInRange, leeway) => {
   return fallInRange >= floor && fallInRange <= ceiling
 }
 
-exportObj.foodStructure = ({calories,proteins,carbs,fats})=>{
+exportObj.foodStructure = ({calories,proteins,carbs,fats}) => {
   //create a function that identifies what combination of food can exist based on the criteria entered
   //eg offSet Calories (-400,-80)
 }

@@ -4,12 +4,10 @@ const ComposedComponent = (DataScreen, arrayOfArgs) =>
     class ComposedComponent extends Component {
       constructor(props){
         super(props)
-
         this.state = {
           position:0,
           data:{}
         }
-
         this.controlClick = this.controlClick.bind(this)
         this.controlScreen = this.controlScreen.bind(this)
       }
@@ -31,8 +29,8 @@ const ComposedComponent = (DataScreen, arrayOfArgs) =>
           })
         }
         else {
-
-          this.props.getCalories(this.state.data)
+          this.props.GetCalories(this.state.data)
+          this.props.AddPersonalData(this.state.data)
         }
       }
 

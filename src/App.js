@@ -11,7 +11,7 @@ import Loader from './components/Loader'
 
 //importing redux tools
 import { connect } from 'react-redux'
-import { GetCalories} from './redux/action'
+import { GetCalories, AddPersonalData} from './redux/action'
 
 const DataScreens = ComposedComponent(
   DataComponent,
@@ -31,16 +31,15 @@ class App extends Component {
     return (this.props.loading)?
       <Loader/>:
         (!this.props.showData)?
-          <DataScreens getCalories={this.props.getCalories}/>:
+          <DataScreens GetCalories={this.props.GetCalories} AddPersonalData={this.props.AddPersonalData}/>:
           <ShowData/>
   }
 
-  // {this.renderScreen()}
   render() {
     console.log(this.props)
     return (
      <div className="container">
-     <ShowData/>
+     {this.renderScreen()}
      </div>
     );
   }
@@ -53,7 +52,8 @@ const mapStateToProps = ( state ) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getCalories: apiInformation => dispatch(GetCalories(apiInformation))
+    GetCalories: apiInformation => dispatch(GetCalories(apiInformation)),
+    AddPersonalData: data => dispatch(AddPersonalData(data))
 })
 
 export default connect(
