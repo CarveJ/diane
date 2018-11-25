@@ -11,6 +11,6 @@ const foodSchema = new Schema({
   quantity: Number
 })
 
-const FoodInfo = mongoose.model('food', foodSchema);
+const foodDB = mongoose.model('food', foodSchema);
 
-module.exports = FoodInfo
+module.exports.foodDB = foodDB

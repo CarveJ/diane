@@ -5,12 +5,12 @@ const cors = require('@koa/cors')
 const db = require('./db')
 
 const app = new Koa()
-const port = 3001
+const port = 3000
 
 app.use(cors())
 app.use(bodyparser());
 app.use(router.routes())
 
 app.listen(port, () => {
-  console.log("Listening on port 3001");
+  console.log("Listening on port 3000");
 })

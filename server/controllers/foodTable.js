@@ -1,25 +1,71 @@
-exports.foodTable = async (ctx) =>{
-  ctx.body = await shoppingList(ctx.request.body)
+const { macroToGrams } = require('./helperFunctions/macroToGrams')
+const { findFMI } = require('./helperFunctions/findFMI')
+const { addToFoodList } = require('./helperFunctions/addItemToFoodList')
+
+exports.foodTable = async (ctx) => {
+  ctx.body = await shoppingList( ctx.request.body )
 }
 
-const shoppingList = ({TargetCalories}) => {
-  const foodList = {
+const shoppingList = async ({targetCalories, macros}) => {
+  let { protein, carbs, fats } = macros
+
+  protein = macroToGrams(protein,targetCalories,4)
+  carbs = macroToGrams(carbs,targetCalories,4)
+  fats = macroToGrams(fats,targetCalories,8)
+
+
+
+  let foodList = {
+    "Dairy":[],
+    "Spices and Herbs":[],
+    "Oils":[],
+    "Meat":[],
+    "Vegetables":[],
+    "Nuts and Seeds":[],
+    "Cereal Grains and Pasta":[],
+    score: {
+      calories:0,
+      protein:0,
+      carbs:0,
+      fats:0
+    }
+  }
+
+  const offSet = {
+    calories:0,
+    protein:0,
+    carbs:0,
+    fats:0
+  }
+
+  const offSetCalculator = () => {
+    const score = foodList.score
+    offSet.calories = targetCalories - score.calories
+    offSet.protein = protein - score.protein
+    offSet.carbs = carbs - score.carbs
+    offSet.fats = fats - score.fats
+  }
+
+
+  offSetCalculator()
+  let count = 0
+  while(offSet.calories !== 0 && count < 50){
+    //assign an empty variable
+    let aFood
+    // fetch a fooditem from the database that matches the offset foodRequirements
+    //use await as we want the next operation to depend on this one
+    await findFMI(offSet).then( foodItem => {
+      aFood = foodItem
+    })
+
+    //update the foodlist with the new fooditem
+    if(aFood !== undefined && aFood !== null){
+      foodList = addToFoodList(aFood,foodList)
+    }
+    //update the offSet with the items in the foodList
+    offSetCalculator()
+    count++
   }
 
   return foodList
 }
-
-// what needs to be done
-// return a list of edible foods
-// something that you could cook maybe match a recipe?
-// Just do the pyramid
-// collect each item from your database that is within some range at random to generate this list
-// eg we find foods that add up to the calorie goal
-// just by searching for the calorie, without regards to fats/carbs/proteins , but we make it a requirement
-// that the foods must belong to a certain group.
-
-// Find food items that match the specifications of the calorie goal ( just calories...)
-
-0.1-0.3g of Oils
-2-3 Servings of Milk, Yogurt and Cheese
-2-3 servings of Meat 
